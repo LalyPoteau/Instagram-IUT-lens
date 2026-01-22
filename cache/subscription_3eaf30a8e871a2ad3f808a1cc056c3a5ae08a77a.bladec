@@ -1,0 +1,72 @@
+<?php $this->startSection('topMenu'); ?>
+
+<form method="GET" action="<?php echo \htmlentities(URL_INDEX??'', ENT_QUOTES, 'UTF-8', false); ?>" class="form_search" >
+ <input type="hidden" name="page" value="subscription">
+ <?php if(!empty($nom)): ?>
+<input type="text" name="nom" placeholder ="Votre recherche" value=<?php echo \htmlentities($nom??'', ENT_QUOTES, 'UTF-8', false); ?>>
+
+ <?php else: ?>
+ <input type="text" name="nom" placeholder ="Votre recherche">
+ 
+ <?php endif; ?>
+<button type="submit" class="btn-search">
+<i class='bx bx-search'></i>
+</button>
+</form>
+
+
+
+<?php $this->stopSection(); ?>
+<?php $_shouldextend[1]=1; ?>
+
+
+<?php $this->startSection('content'); ?>
+<div class="utilisateurs">
+
+<?php if(!empty($Usersearch)): ?>
+
+
+<h2>Ma recherche</h2>
+<?php $__currentLoopData = $Usersearch; $this->addLoop($__currentLoopData);$this->getFirstLoop();
+ foreach($__currentLoopData as $personnes => $info): $loop = $this->incrementLoopIndices();  ?>
+<div class="user">
+<span> <a href="<?php echo \htmlentities(URL_INDEX??'', ENT_QUOTES, 'UTF-8', false); ?>?page=article&id=<?php echo \htmlentities($info['id']??'', ENT_QUOTES, 'UTF-8', false); ?>" class="friend">
+ <?php echo \htmlentities($info['login']??'', ENT_QUOTES, 'UTF-8', false); ?></a>
+<?php if(!empty($info['idAbonne'])): ?>
+</br>depuis le <?php echo \htmlentities($info['dateAbonnement']??'', ENT_QUOTES, 'UTF-8', false); ?></span>
+<a href="<?php echo \htmlentities(URL_INDEX??'', ENT_QUOTES, 'UTF-8', false); ?>?action=delFriend&id=<?php echo \htmlentities($info['id']??'', ENT_QUOTES, 'UTF-8', false); ?>" class = "button_friend"> 
+ se désabonner </a>
+
+
+<?php else: ?>
+</span>
+<a href="<?php echo \htmlentities(URL_INDEX??'', ENT_QUOTES, 'UTF-8', false); ?>?action=addFriend&id=<?php echo \htmlentities($info['id']??'', ENT_QUOTES, 'UTF-8', false); ?>" class = "button_friend"> s'abonner </a>
+
+
+<?php endif; ?>
+
+</div>
+<?php endforeach; $this->popLoop(); $loop = $this->getFirstLoop(); ?>
+
+<?php else: ?>
+
+<p> Aucun comptes ne correspond à vos recherches</p>
+
+<?php endif; ?>
+
+<h2>Mes abonnements</h2>
+<?php $__currentLoopData = $Userfriends; $this->addLoop($__currentLoopData);$this->getFirstLoop();
+ foreach($__currentLoopData as $personnes => $info): $loop = $this->incrementLoopIndices();  ?>
+
+
+<div class="user">
+<span> <a href="<?php echo \htmlentities(URL_INDEX??'', ENT_QUOTES, 'UTF-8', false); ?>?page=article&id=<?php echo \htmlentities($info['id']??'', ENT_QUOTES, 'UTF-8', false); ?>" class="friend"><?php echo \htmlentities($info['login']??'', ENT_QUOTES, 'UTF-8', false); ?></a> </br>depuis le <?php echo \htmlentities($info['dateAbonnement']??'', ENT_QUOTES, 'UTF-8', false); ?></span>
+<a href="<?php echo \htmlentities(URL_INDEX??'', ENT_QUOTES, 'UTF-8', false); ?>?action=delFriend&id=<?php echo \htmlentities($info['id']??'', ENT_QUOTES, 'UTF-8', false); ?>" class = "button_friend"> se désabonner </a>
+</div>
+<?php endforeach; $this->popLoop(); $loop = $this->getFirstLoop(); ?>
+
+</div>
+<?php $this->stopSection(); ?>
+
+
+<?php if (isset($_shouldextend[1])) { echo $this->runChild('templates.app'); } ?>
